@@ -1,0 +1,22 @@
+<template name="post">
+  <div class="post-container">
+    <div class="post-title">
+      {{postTitle}}
+    </div>
+
+    <div class="post-subject">
+      {{postSubject}}
+    </div>
+
+    <div class="post-description">
+      {{postDescription}}
+    </div>
+
+    <div class="post-tags">
+      {{#each postTags}}
+        <a>{{this}}</a>
+      {{/each}}
+    </div>
+  </div>
+
+</template>

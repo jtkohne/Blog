@@ -1,0 +1,42 @@
+<template name="header">
+  <nav class="c-header">
+    <!-- <div class="c-header__wrapper"> -->
+      <div class="c-header-nav">
+        <a class="c-header-nav__brand" href="#">
+          <img alt="Brand" src="...">
+        </a>
+
+        <ul class="c-header-nav__list">
+          <li class="c-header-nav__item">
+            <a class="c-header-nav__link" href="{{pathFor 'recentPosts'}}">Home</a>
+          </li>
+          <li class="c-header-nav__item">
+            <a class="c-header-nav__link" href="#">About</a>
+          </li>
+          <li class="c-header-nav__item">
+            <a class="c-header-nav__link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="c-header__actions">
+        <div class="c-header__actions--login">
+          {{> loginButtons}}
+        </div>
+
+        <div class="c-header__actions--new-post">
+          <a class="c-header__link" href="{{pathFor 'newPost'}}">New Post</a>
+        </div>
+
+        <div class="c-header__actions--settings">
+          <div class="icon-settings" data-action="go-to-settings">
+          </div>
+        </div>
+      </div>
+
+<!--
+    </div> -->
+
+
+ </nav>
+</template>

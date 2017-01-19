@@ -1,0 +1,37 @@
+  <head>
+    <title>Recents</title>
+  </head>
+  <template name="recentPosts">
+    <div class="posts-container o-max-width-lg">
+      <h3 class="c-headings__page-title">Recent Posts</h3>
+    <div class="o-masonry-panel o-full-height">
+      {{#each Postings}}
+        <div class="recent-post o-box-behind o-masonry-panel__item">
+          <a class="recent-post__posting" href="{{pathFor 'posting' _id=_id}}" data-action="go-to-post">
+            <h2 class="recent-post__title">{{postTitle}}</h2>
+            <!-- <img class="recent-post__image" src="{{postImages}}"><br /> -->
+            <p class="recent-post__description ">{{postPreview}}</p><br />
+          </a>
+          <div class="recent-post__tags">
+            {{#each postTags}}
+              <a href="#" class="recent-post__tag">{{this}}</a>
+            {{/each}}
+          </div>
+          <!-- <div class="recent-post__actions">
+            <div class="c-action-btn recent-post__actions-btn">
+              <button type="button">Share</button>
+            </div>
+          </div> -->
+          <!-- <div class="recent-post__sharing">
+            <div class="recent_post__social-media">
+              <a href="#" class="recent-post__sharing-icon icon-social-facebook"></a>
+              <a class="recent-post__sharing-icon icon-social-twitter"></a>
+              <a href="#" class="recent-post__sharing-icon icon-social-instagram"></a>
+            </div>
+          </div> -->
+
+        </div>
+      {{/each}}
+    </div>
+    </div>
+  </template>

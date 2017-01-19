@@ -1,0 +1,44 @@
+// out: global.css, sourcemap: true, compress: true, main: global.less
+
+//Stylesheet Libraries
+
+// Global Stylesheets
+@import './mixins.less';   // mixins.less - Global mixin variables
+@import './colors.less';  // colors.less - Global color variables
+@import './fonts.less';   // fonts.less  - Global font variables
+
+@import './document.import.less';
+@import './objects.import.less'; // object containers for parent elements
+// Bootstrap
+// @import "./lib/bootstrap/bootstrap.import.less";
+// @import './variables.import.less';
+// @import './lib/bootstrap.min.css'; // Bootstrap 3.3.5
+// @import '../_1fileinput.min.css';
+
+//Browser Resets
+// @import './lib/browser_resets/ie_9_reset.css'; // IE 9
+// @import './lib/browser_resets/opera_10.51_reset.css'; // Opera
+// @import './lib/browser_resets/reset.css'; // Mozilla
+//@import '../../../../stylesheets/browser_resets/webkit_reset.css'; // Safari, Chrome
+
+
+
+//Component Stylesheets
+@import './components/c-headings.import.less';
+@import './components/c-action-button.import.less';
+@import './components/c-admin.import.less';
+
+//Template Stylesheets
+@import './components/header.import.less'; // Header Styling
+@import './components/footer.import.less'; // Footer Styling
+@import './components/newPost.import.less';
+@import './components/recents.import.less';
+
+
+/*********************************************************************
+*  THIS IS OUR MAIN STYLESHEET                                       *
+*  WE PASS ALL LESS STYLESHEETS TO THIS FILE                         *
+*  WE THEN REQUIRE THIS ON OUR MAIN.CSS FILE                         *
+*  THEN WE COMPILE THIS ONE LESS FILE TO CSS (it's faster that way). *
+*  ALL THE STYLING IS THEN DONE IN ONE ANSYNCROUNOUS PROCESS...      *
+**********************************************************************/

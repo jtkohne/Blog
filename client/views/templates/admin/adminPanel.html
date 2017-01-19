@@ -1,0 +1,41 @@
+<template name="adminPanel">
+  <div class="c-admin">
+    <div class="c-admin__panel">
+      <table class="c-admin-table">
+        <tbody>
+          <tr class="c-admin-table__row">
+            <th class="c-admin-table__header">
+              User
+            </th>
+          </tr>
+          <tr class="c-admin-table__row">
+            <th class="c-admin-table__data">
+              Role
+            </th>
+          </tr>
+        {{#each user}}
+          <tr class="c-admin-table__row">
+            <td class="c-admin-table__data">
+              {{userEmail}}
+            </td>
+            <td class="c-admin-table__data">
+            <select class="c-admin__picklist">
+              <option class="c-admin__option">
+                Admin
+              </option>
+              <option class="c-admin__option">
+                Editor
+              </option>
+              <option class="c-admin__option">
+                Standard
+              </option>
+            </select>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</template>

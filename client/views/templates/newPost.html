@@ -1,0 +1,26 @@
+<head>
+  <title>New Post</title>
+</head>
+
+<template name="newPost">
+  <container class="container">
+    <div class="blog-entry">
+      <form>
+        <label for="title">Title:</label>
+          <input type="text" size="100" class="title form-control input-lg" id="title" placeholder="Post Title">
+        <label for="subject">Subject:</label>
+          <input type="text" size="100" class="subject form-control input-lg" id="subject" placeholder="Subject">
+        <label for="body">Body:</label>
+          <textarea type="textarea" rows="15" class="post-body form-control input-lg" id="body" placeholder="Body Content"></textarea>
+            <!-- {{> froalaReactive}} -->
+        <label for="tags">Tags:</label>
+          <input type="text" class="tag form-control input-lg" id="tags" placeholder="#Tag Posting...">
+        <label class="control-label">Select Images</label>
+          <input type="file" class="images" accept="image/*" name="img" multiple>
+
+        <button type="button" class="new-post">Post</button>
+        <button type="button" class="delete-all-posts">Delete All DB Postings</button>
+      </form>
+    </div>
+  </container>
+</template>

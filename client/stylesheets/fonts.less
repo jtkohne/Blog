@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Dawning+of+a+New+Day|Homemade+Apple|Flamenco:300,400|Kranky|Oleo+Script+Swash+Caps:400,700');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css');
+
+@simple-line-font-path        : "/path/to/font/files";
+@simple-line-font-family      : "desired-name-font-family";
+@simple-line-icon-prefix      : prefix-;
+//
+// @Poiret: 'Poiret One', cursive;
+// @Spinnaker: 'Spinnaker', sans-serif;
+
+@Homemade: 'Homemade Apple', cursive;
+@Homemade-regular: 400;
+
+@Dawn: 'Dawning of a New Day', cursive; // weights: regular 400
+@Dawn-regular: 400;
+
+@Flamenco: 'Flamenco', cursive; // weights: light 300, regular 400
+@Flamenco-light: 300;
+@Flamenco-regular: 400;
+
+@Kranky: 'Kranky', cursive; // weights: regular 400
+@Kranky-regular: 400;
+
+@Oleo: 'Oleo Script Swash Caps', cursive; // weights: regular 400, bold 700
+@Oleo-bold: 700;
+@Oleo-regular: 400;
+
+@font-base: 1rem;
+@font-sm: 0.75rem;
+@font-med: 1.25rem;
+@font-lg: 1.5rem;
+@font-xl: 2rem;
+@font-xxl: 3rem;
+
+@font-fat: 600;
+@font-reg: 400;
+@font-skinny: 200;
+
+.Font(@family, @weight, @size) {
+	font-family: @family;
+	font-weight: @weight;
+	font-size: @size;
+}

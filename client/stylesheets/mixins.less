@@ -1,0 +1,44 @@
+///////////// MIXINS /////////////////
+.css-transform(@transform) {
+  -webkit-transform: @transform;
+     -moz-transform: @transform;
+      -ms-transform: @transform;
+       -o-transform: @transform;
+         -transform: @transform;
+}
+
+.css-transition(@transition) {
+  -webkit-transition: @transition;
+     -moz-transition: @transition;
+      -ms-transition: @transition;
+       -o-transition: @transition;
+         -transition: @transition;
+}
+
+.bg-color(@color, @opacity) {
+	background-color: @color;
+	opacity: @opacity;
+}
+
+.columns(@number, @width) {
+  -webkit-column-count: @number;
+     -moz-column-count: @number;
+          column-count: @number;
+
+    -webkit-column-width: @width;
+       -moz-column-width: @width;
+            column-width: @width;
+}
+
+@bp-xs: (325/16) * 1em; //22.5em ~ mobile
+@bp-sm: (450/16) * 1em; //28.125em ~ hi-res mobile/low-res tablet
+@bp-med: (720/16) * 1em; //45em ~ laptop/tablet
+@bp-lg: (960/16) * 1em; // 60em ~ desktop
+@bp-xl: (1400/16) * 1em; //87.5em ~ hi-res desktop
+
+
+.responsive(@minWidth; @rules) {
+    @media all and (min-width: @minWidth) {
+        @rules();
+    }
+}
