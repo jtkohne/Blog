@@ -1,6 +1,7 @@
 .c-admin {
+  width: 100%;
   &__panel{
-
+    padding: 4em;
   }
 
   &__picklist {
@@ -13,7 +14,7 @@
 }
 
 .c-admin-table {
-
+  width: 100%;
   &__row {
 
   }
@@ -23,6 +24,15 @@
   }
 
   &__data {
+    padding: .25em .5em;
+    width: 33%;
+  }
 
+  &__action-save {
+    display: none;
+
+    &.show {
+      display: block;
+    }
   }
 }
