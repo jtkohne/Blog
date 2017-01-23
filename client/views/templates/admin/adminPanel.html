@@ -65,7 +65,15 @@
       <label> Featured Posts
         <select>
         {{#each post in userPosts}}
-          <option>{{post.title}}</option>
+          <option>
+            {{#if post.title}}
+              {{post.title}}
+            {{else}}{{#if post.subject}}
+              {{post.subject}}
+            {{else}}
+              {{post._id}}
+            {{/if}}{{/if}}
+          </option>
         {{/each}}
         </select>
       </label>
