@@ -109,20 +109,22 @@ Template.adminPanel.events
     role = role.toString()
     selected = $(e.target).val().toLowerCase()
     button = $(e.target).parent().siblings().find('[data-action=save]')
-    # console.log(role)
-    # console.log(selected)
     if role != selected
-      console.log(role)
-      console.log(selected)
       button.addClass('show')
     else
        button.removeClass('show')
-    return ''
 
   'change [data-action=change-number-of-page-items]': (e, template) ->
-    appSetting = Meteor.settings.public.postsPerPage
+    # appSetting = Meteor.settings.public.postsPerPage
     picked = $(e.target).val()
-    console.log(appSetting)
+    # console.log(appSetting)
     console.log(picked)
-    if appSetting != picked
-      return Meteor.settings.public.postsPerPage = parseInt(picked)
+    # if appSetting != picked
+    #   Meteor.call('Settings.updateNumberOfItemsPerPage', picked)
+    Meteor.call 'Settings.updateNumberOfItemsPerPage', parseInt(picked), (error, response) ->
+      if error?
+        alert(error.reason)
+        return console.error('ERROR: '+error.reason)
+      else
+        alert("Successfully updated number of posts to :"+response)
+        return console.log("Successfully updated number of posts to: "+response)

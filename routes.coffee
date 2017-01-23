@@ -77,6 +77,7 @@ Router.route '/admin/user-panel',
 
   waitOn: -> [
     Meteor.subscribe 'users'
+    Meteor.subscribe "settings",
   ]
 
   data: ->
