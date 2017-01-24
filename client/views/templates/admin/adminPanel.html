@@ -1,10 +1,20 @@
 <template name="adminPanel">
   {{#if isInRole 'admin'}}
+
   <div class="c-admin o-max-width-lg">
     <h1>Blog Settings</h1>
     <div class="c-admin__panel">
 
-      <h2>Users</h2>
+      <ul class="c-tabs__list">
+        {{#each tabs}}
+        <li class="c-tabs__item">
+          <a href="#" class="c-tabs__link {{tabIsActive}}">{{name}}</a>
+        </li>
+        {{/each}}
+      </ul>
+
+    <div class="c-tab {{showTab}}" data-label="userSettings">
+        <h2>Users</h2>
       <table class="c-admin-table">
         <tbody>
           <tr class="c-admin-table__row">
@@ -35,8 +45,10 @@
         {{/each}}
         </tbody>
       </table>
+    </div>
 
-    <h2>View Settings</h2>
+  <div class="c-tab {{showTab}}" data-label="viewSettings">
+      <h2>View Settings</h2>
       <label> Number of Posts Per Page.
         <select class="c-admin__picklist" data-action="change-number-of-page-items">
           <option class="c-admin__option">1</option>
@@ -62,8 +74,12 @@
         </select>
       </label>
 
+
+
+
       <label> Featured Posts
         <select>
+        <option class=""></option>
         {{#each post in userPosts}}
           <option>
             {{#if post.title}}
@@ -99,6 +115,7 @@
         </select>
       </label>
     </div>
-  </div>
+      </div>
+    </div>
 {{/if}}
 </template>

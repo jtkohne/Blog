@@ -4,10 +4,11 @@ Template.adminPanel.onCreated ->
 
   @users = new ReactiveVar(@data or null);
 
+  @autorun =>
+    @tab = new ReactiveVar();
+
 Template.adminPanel.onRendered ->
-
-  # console.log(@users.get())
-
+  @tabs = $('.c-tab')
 
 Template.adminPanel.helpers
   users: ->
@@ -17,19 +18,36 @@ Template.adminPanel.helpers
     # console.log(@)
     @emails[0].address
 
+  tabs: ->
+    return [
+      {
+        name: "User Settings",
+        # link: "#userSettings",
+        dataLabel: "userSettings",
+        active: true
+      },
+      {
+        name: "View Settings",
+        # link: "#viewSettings",
+        dataLabel: "viewSettings",
+        active: false
+      },
+    ]
 
-  currentRole: ->
-    # console.log(@)
-    # roleOption = if @role then @role
-    # currentRole = if @roles then @roles[0]
-    #
-    # console.log(roleOption)
-    # if roleOption and currentRole
-    #   return "Found both variables"
+  tabIsActive: -> # sets the tab styling to active
+    tab = Template.instance().tab.get()
+    if @ is tab
+      return 'active'
+    else
+      return ''
 
-    # if @roles
-    #   currentRole = @roles[0]
-    #   console.log(currentRole)
+  showTab: ->
+    tab = Template.instance().tab?.get()
+    tabs = Template.instance().tabs
+    _.each tabs, (panel) ->
+      if panel.dataset.label is tab.dataLabel
+        return $(panel).fadeIn("fast").addClass("active")
+      return $(panel).hide().removeClass("active")
 
   userTypes: -> # generate user types
     roles = [ {role: "admin"}, {role: "editor"}, {role: "standard"} ]
@@ -87,6 +105,11 @@ Template.adminPanel.helpers
     # return address
 
 Template.adminPanel.events
+  'click .c-tabs__link': (e, template) ->
+    e.preventDefault
+    @active = true
+    template.tab.set(@)
+
   'click [data-action="save"]': (e, template) ->
     userId = @_id
     selected = $(e.target).parent().siblings('.c-admin-table__data').find('.c-admin__option:selected')["0"]
@@ -118,7 +141,6 @@ Template.adminPanel.events
     # appSetting = Meteor.settings.public.postsPerPage
     picked = $(e.target).val()
     # console.log(appSetting)
-    console.log(picked)
     # if appSetting != picked
     #   Meteor.call('Settings.updateNumberOfItemsPerPage', picked)
     Meteor.call 'Settings.updateNumberOfItemsPerPage', parseInt(picked), (error, response) ->
