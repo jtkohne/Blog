@@ -2,6 +2,10 @@
   display: none;
   max-height: 0;
   .css-transition(all 0.3s ease);
+  background-color: fade(@charcoal, 75%);
+  color: @gray-med-light;
+  padding: 1em 3em 3em 3em;
+  border-radius: 0.25em;
   &.active {
     display: block;
     height: 100%;
@@ -16,6 +20,8 @@
   &__list {
   display: inline-block;
   width: 100%;
+  margin-bottom: 0;
+  padding: 0;
   }
 
   &__item {

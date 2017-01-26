@@ -1,8 +1,12 @@
 # import { BlogSettings } from '../../../../lib/appSettings';
 
 Template.adminPanel.onCreated ->
-
-  @users = new ReactiveVar(@data or null);
+  console.log(@data)
+  @users = new ReactiveVar(@data.users or null);
+  @posts = @data.posts;
+  @settings = @data.settings;
+  console.log(@settings);
+  @numberOfFeatured = new ReactiveVar(Meteor.settings.null);
 
   @autorun =>
     @tab = new ReactiveVar();
@@ -12,7 +16,7 @@ Template.adminPanel.onRendered ->
 
 Template.adminPanel.helpers
   users: ->
-    return @
+    return Template.instance().users.get()
 
   userId: ->
     # console.log(@)
@@ -78,31 +82,8 @@ Template.adminPanel.helpers
     return ''
 
   userPosts: ->
-    return Posts.find({}).fetch()
+    return Template.instance().posts
 
-  # changedRole: ->
-  #   console.log(@)
-  #   dbRole = Roles.getRolesForUser @_id
-  #   # selected = $(e.target).parent().siblings('.c-admin-table__data').find('.c-admin__option:selected')["0"]
-  #   role = $(selected).val().toLowerCase()
-
-    # if role != dbRole
-    #   return 'show'
-    # return ''
-
-  # #
-  # # "HelloWorld": ->
-  # #   return alert("hello world")
-  #
-  # "siteUsers": ->
-  #   return [{id: '123'},{id: '234'}]
-    # cosole.log(users)
-  #
-  # "userEmail": ->
-  #   console.log(@)
-    # address = _.find(@email, (obj) -> return obj.address)
-    # console.log(address)
-    # return address
 
 Template.adminPanel.events
   'click .c-tabs__link': (e, template) ->
@@ -120,11 +101,9 @@ Template.adminPanel.events
 
     Meteor.call 'User.changeUserRole', userId, role, (error, response) ->
       if error?
-        alert(error.reason)
-        return console.error("ERROR: "+error.reason);
+        Toast.error("There was an error updaing the user role: "+error.reason, "Role Update Failed:", {displayDuration: 3000})
       else
-        alert(response)
-        console.log(response)
+        Toast.success("Successfully chnaged user role to: "+response, "User Role Updated", {displayDuration: 3000})
 
   'change [data-action=change-user-role]': (e, template) ->
     userId = @_id
@@ -138,15 +117,17 @@ Template.adminPanel.events
        button.removeClass('show')
 
   'change [data-action=change-number-of-page-items]': (e, template) ->
-    # appSetting = Meteor.settings.public.postsPerPage
     picked = $(e.target).val()
-    # console.log(appSetting)
-    # if appSetting != picked
-    #   Meteor.call('Settings.updateNumberOfItemsPerPage', picked)
-    Meteor.call 'Settings.updateNumberOfItemsPerPage', parseInt(picked), (error, response) ->
+    Meteor.call 'Settings.changeNumberOfItemsPerPage', parseInt(picked), (error, response) ->
       if error?
-        alert(error.reason)
-        return console.error('ERROR: '+error.reason)
+        Toast.error("There was an error updating number of items per page "+error.message, "Setting Failed: "+error.errorType, {displayDuration: 5000})
       else
-        alert("Successfully updated number of posts to :"+response)
-        return console.log("Successfully updated number of posts to: "+response)
+        Toast.success("Successfully updated number of items per page: "+response, "Setting Added", {displayDuration: 3000})
+
+  'click [data-action=change-number-of-featured-items]': (e, template) ->
+    picked = $(e.target).siblings('.c-admin__picklist').val()
+    Meteor.call 'Settings.changeNumberOfFeaturedItems', parseInt(picked), (error, response) ->
+      if error?
+        Toast.error("There was an error updating number of featured post setting: "+error.message, "Setting Failed: "+error.errorType, {displayDuration: 5000})
+      else
+        Toast.success("Successfully updated number of featured posts to: "+response, "Success", {displayDuration: 3000})

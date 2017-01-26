@@ -77,11 +77,16 @@ Router.route '/admin/user-panel',
 
   waitOn: -> [
     Meteor.subscribe 'users'
-    Meteor.subscribe "settings",
+    Meteor.subscribe "settings"
   ]
 
-  data: ->
-    Meteor.users.find({}).fetch()
+  data: -> {
+      users:    Meteor.users.find({}).fetch(),
+      posts:    Posts.find({}).fetch(),
+      settings: Settings.find({}).fetch()
+  }
+
+
 
 Router.route 'oops',
   name: "pageNotFound"
