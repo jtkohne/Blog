@@ -1,18 +1,23 @@
 # import { BlogSettings } from '../../../../lib/appSettings';
-
+createSelectList = () ->
+  return {
+    label: "Featured Post",
+    labelClass: "c-admin__label",
+    selectClass: "c-admin__picklist"
+  }
 Template.adminPanel.onCreated ->
-  console.log(@data)
   @users = new ReactiveVar(@data.users or null);
   @posts = @data.posts;
   @settings = @data.settings;
-  console.log(@settings);
-  @numberOfFeatured = new ReactiveVar(Meteor.settings.null);
+  @featuredSetting = _.find @settings, (set) -> return set.name is "numberOfFeatured"
+  @numberOfFeatured = new ReactiveVar(@featuredSetting.value or null);
 
   @autorun =>
     @tab = new ReactiveVar();
 
 Template.adminPanel.onRendered ->
   @tabs = $('.c-tab')
+  @featuredList = $('.c-admin__picklist')
 
 Template.adminPanel.helpers
   users: ->
@@ -84,6 +89,22 @@ Template.adminPanel.helpers
   userPosts: ->
     return Template.instance().posts
 
+  selectLists: ->
+    number = Template.instance().numberOfFeatured.get()
+    lists = []
+    _(number).times (n) -> lists.push(createSelectList())
+    return lists
+
+  isSelectedFeatureNumber: ->
+    setting = Template.instance().featuredSetting.value
+    picked = Template.instance().numberOfFeatured.get()
+
+    console.log(setting)
+    console.log(picked)
+    if setting is picked
+      console.log "triggered"
+      return 'show'
+    return
 
 Template.adminPanel.events
   'click .c-tabs__link': (e, template) ->
@@ -116,8 +137,19 @@ Template.adminPanel.events
     else
        button.removeClass('show')
 
+  'change [data-action=select-number-of-featured-items]': (e, template) ->
+    picked = $(e.target).val()
+    template.numberOfFeatured.set(picked)
+    # console.log(template.featuredSetting);
+    # console.log(template.numberOfFeatured.get())
+    # button = $('[data-action=change-number-of-featured-items]');
+    # setting = template.featuredSetting
+    # selected = template.numberOfFeatured.get()
+
+
   'change [data-action=change-number-of-page-items]': (e, template) ->
     picked = $(e.target).val()
+
     Meteor.call 'Settings.changeNumberOfItemsPerPage', parseInt(picked), (error, response) ->
       if error?
         Toast.error("There was an error updating number of items per page "+error.message, "Setting Failed: "+error.errorType, {displayDuration: 5000})
@@ -126,6 +158,8 @@ Template.adminPanel.events
 
   'click [data-action=change-number-of-featured-items]': (e, template) ->
     picked = $(e.target).siblings('.c-admin__picklist').val()
+    template.numberOfFeatured.set(picked) # set reactive variable to refresh view
+
     Meteor.call 'Settings.changeNumberOfFeaturedItems', parseInt(picked), (error, response) ->
       if error?
         Toast.error("There was an error updating number of featured post setting: "+error.message, "Setting Failed: "+error.errorType, {displayDuration: 5000})

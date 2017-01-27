@@ -76,63 +76,34 @@
 
 
       <label class="c-admin__label"> Number of Featured Posts
-        <select class="c-admin__picklist">
+        <select class="c-admin__picklist featured" data-action="select-number-of-featured-items">
           <option class="c-admin__option">1</option>
           <option class="c-admin__option">2</option>
           <option class="c-admin__option">3</option>
           <option class="c-admin__option">4</option>
         </select>
-        <button type="button" data-action="change-number-of-featured-items">Update</button>
+        <button class="c-btn c-btn-action c-admin__button {{isSelectedFeatureNumber}}" type="button" data-action="change-number-of-featured-items">Update</button>
       </label>
 
-      <label class="c-admin__label"> Featured Posts
-        <select class="c-admin__picklist">
-        <option class=""></option>
+      {{#each selectLists}}
+      <label class="{{labelClass}}">{{label}}
+        <select class="{{selectClass}}">
         {{#each post in userPosts}}
-          <option>
-            {{#if post.title}}
-              {{post.title}}
-            {{else}}{{#if post.subject}}
-              {{post.subject}}
-            {{else}}
-              {{post._id}}
-            {{/if}}{{/if}}
-          </option>
+        <option {{postIsSelected}}>
+          {{#if post.title}}
+            {{post.title}}
+          {{else}}{{#if post.subject}}
+            {{post.subject}}
+          {{else}}
+            {{post._id}}
+        {{/if}}{{/if}}
+        </option>
         {{/each}}
-        </select>
-      </label>
-
-      {{#each featuredPosts}}
-      <label class="c-admin__label"> Featured Posts
-        <select class="c-admin__picklist">
-        {{#each posts}}<option>{{post.title}}</option>{{/each}}
       </select>
       </label>
       {{/each}}
 
-
-      <label class="c-admin__label"> Featured Posts
-        <select class="c-admin__picklist">
-        {{#each post in userPosts}}
-          <option>{{post.title}}</option>
-        {{/each}}
-        </select>
-      </label>
-      <label class="c-admin__label"> Featured Posts
-        <select>
-        {{#each post in userPosts}}
-          <option>{{post.title}}</option>
-        {{/each}}
-        </select>
-      </label>
-      <label class="c-admin__label"> Featured Posts
-        <select>
-        {{#each post in userPosts}}
-          <option>{{post.title}}</option>
-        {{/each}}
-        </select>
-      </label>
-    </div>
+        </div>
       </div>
     </div>
 {{/if}}
