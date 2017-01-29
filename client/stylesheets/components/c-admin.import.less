@@ -1,13 +1,8 @@
 .c-admin {
   width: 100%;
-
-  &__heading {
-    .Font(@Dawn-regular, @font-reg, @font-lg);
-  }
-
   &__panel{
     padding: 4em;
-    .css-transition(all 0.3s ease-in-out);
+    .css-transition(all 0.3s ease);
   }
 
   &__picklist {
@@ -16,18 +11,6 @@
 
   &__option {
 
-  }
-
-  &__label {
-    width: 100%;
-  }
-
-  &__button {
-    display: none;
-
-    &.show {
-      display: block;
-    }
   }
 }
 
@@ -42,12 +25,12 @@
   }
 
   &__data {
-    padding: .25em .5em;
+    padding: .25em .75em;
     width: 33%;
   }
 
   &__action-save {
-    display: none;
+    // display: none;
 
     &.show {
       display: block;

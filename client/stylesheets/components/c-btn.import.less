@@ -1,0 +1,22 @@
+.c-btn {
+  min-width: 100px;
+  max-width: 200px;
+  width: auto;
+  padding: .75em;
+  border: none;
+  position: relative;
+
+  &:hover {
+    &:before {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: @charcoal;
+      opacity: 0.10;
+    }
+  }
+}
