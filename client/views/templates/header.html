@@ -27,11 +27,12 @@
         <div class="c-header__actions--new-post">
           <a class="c-header__link" href="{{pathFor 'newPost'}}">New Post</a>
         </div>
-
-        <div class="c-header__actions--settings">
-          <div class="icon-settings" data-action="go-to-settings">
+        {{#if isInRole 'admin'}}
+          <div class="c-header__actions--settings">
+            <div class="icon-settings" data-action="go-to-settings">
+            </div>
           </div>
-        </div>
+        {{/if}}
       </div>
 
 <!--

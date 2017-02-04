@@ -2,9 +2,11 @@
   "name": "SueBlog",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "dev-start": "meteor --settings settings-development.json"
   },
   "dependencies": {
+    "babel-runtime": "^6.20.0",
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.0.2",
     "react-addons-create-fragment": "^15.0.2",

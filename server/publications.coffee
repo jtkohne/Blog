@@ -1,11 +1,11 @@
 Meteor.publish 'posts', () ->
-	Posts.find({})
-# #
-# Meteor.publish 'posts', () ->
-# 	return Posts.find({}).fetch()
+  Posts.find({})
 
 Meteor.publish 'singlePost', (id) ->
-	Posts.find({_id: id})
+  Posts.find({_id: id})
 
 Meteor.publish 'users', () ->
-	Meteor.users.find({})
+  Users.find({})
+
+Meteor.publish 'settings', () ->
+  Settings.find({})

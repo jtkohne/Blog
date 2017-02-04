@@ -15,6 +15,17 @@ if Meteor.isClient
 
   # Router.onAfterAction ->
 
+Router.route '/',
+ name: "home"
+ template: "recentPosts"
+
+ waitOn: -> [
+   Meteor.subscribe 'posts'
+ ]
+
+ data: ->
+   Posts.find({}).fetch()
+
 Router.route '/new-post',
   name: 'newPost'
   template: 'newPost'
@@ -22,7 +33,6 @@ Router.route '/new-post',
   onAfterAction: ->
 
   waitOn: -> [
-    Meteor.subscribe 'users'
     Meteor.subscribe 'posts'
   ]
 
@@ -54,13 +64,30 @@ Router.route 'post/:id',
 
 # ADMIN ROUTES
 
-Router.route '/admin/panel',
+Router.route '/admin/user-panel',
   name: 'adminPanel'
   template: 'adminPanel'
 
+  onBeforeAction: ->
+    role = Roles.getRolesForUser Meteor.userId()
+    role = role.toString()
+    if role != "admin"
+      this.redirect 'pageNotFound'
+    else this.next()
+
   waitOn: -> [
     Meteor.subscribe 'users'
+    Meteor.subscribe "settings"
   ]
 
-  data: ->
-    Meteor.users.find({}).fetch()
+  data: -> {
+      users:    Meteor.users.find({}).fetch(),
+      posts:    Posts.find({}).fetch(),
+      settings: Settings.find({}).fetch()
+  }
+
+
+
+Router.route 'oops',
+  name: "pageNotFound"
+  template: "pageNotFound"

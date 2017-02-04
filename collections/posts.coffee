@@ -24,32 +24,33 @@ class @Posts extends Minimongoid
       return false
 
   if Meteor.isServer
+
     # Meteor.publish 'posts', ->
-    #   posts = Posts.find({})
-    #   posts = Posts.find({},
-    #     { fields: {
-    #         name: 1,
-    #         subject: 1,
-    #         body: 1,
-    #         # photos: 1,
-    #         createdAt: 1,
-    #         tags: 1,
-    #       }
-    #     })
-    #   if posts?
-    #     return posts
-    #   return @.ready()
+    #   # posts = Posts.find({})
+    # posts = Posts.find({},
+    #   { fields: {
+    #       name: 1,
+    #       subject: 1,
+    #       body: 1,
+    #       # photos: 1,
+    #       createdAt: 1,
+    #       tags: 1,
+    #     }
+    #   })
+    # if posts?
+    #   return posts
+    # return @.ready()
 
     Meteor.users.allow
       insert: ->
-        false
+        true
       update: ->
         false
       remove: ->
         false
     Meteor.users.deny
       insert: ->
-        true
+        false
       update: ->
         true
       remove: ->
@@ -58,17 +59,17 @@ class @Posts extends Minimongoid
     Meteor.methods
 
       'Posts.save': (post) ->
-        # check post, Object
-        check post,
-          title: String
-          subject: String
-          body: String
-          # images: Match.Maybe(String || [String])
-          tags: Match.Maybe([ String ])
-          createdAt: Date
-          owner: String
-          userRole: String
-          type: String
+        check post, Object
+        # check post,
+        #   title: String
+        #   subject: String
+        #   body: String
+        #   # images: Match.Maybe(String || [String])
+        #   tags: Match.Maybe([ String ])
+        #   createdAt: Date
+        #   owner: Match.Maybe([String])
+        #   # userRole: String
+        #   type: Match.Maybe([String])
 
         if !@userId
           throw new (Meteor.Error)('Not Authorized')

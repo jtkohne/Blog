@@ -108,7 +108,7 @@ Template.newPost.events
         if owner?
           return owner
         else
-          return new Meteor.Error("not signed in")
+          return "not signed in"
       )()
       # username: ((username) ->
       #   if username?
@@ -116,17 +116,17 @@ Template.newPost.events
       #   unless username?
       #     return new Meteor.Error("username not found")
       # )()
-      userRole: ( ->
-        owner = Meteor.userId()
-        if owner?
-          return "Admin"
-        else
-          return new Meteor.Error("Unable to determine user role")
-      )()
+      # userRole: ( ->
+      #   owner = Meteor.userId()
+      #   if owner?
+      #     return "Admin"
+      #   else
+      #     return "Unable to determine user role"
+      # )()
       type: ( ->
         owner = Meteor.userId()
         if owner?
-          return "User Post"
+          return if Meteor.user.role then Meteor.user.role else "user post"
         else
           return new Meteor.Error("User information not available")
       )()
@@ -134,8 +134,10 @@ Template.newPost.events
 
     Meteor.call 'Posts.save', post, (error, response) ->
       if error
-        return alert("Failed!!! "+error.reason)
-      return alert("post created")
+        alert("fail"+error.reason)
+        return console.log(error.reason);
+        # return Toast.error("Failed, +"error.reason);
+      return console.log(response)
 
   'click .delete-all-posts': (e, instance) ->
     e.preventDefault
