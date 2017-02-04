@@ -2,7 +2,9 @@
   {{#if isInRole 'admin'}}
 
   <div class="c-admin o-max-width-lg">
-    <h1 class="c-admin__heading">Blog Settings</h1>
+    <div class="c-admin__heading">
+      <h1 class="c-admin__heading">Blog Settings</h1>
+    </div>
     <div class="c-admin__panel">
 
       <ul class="c-tabs__list">
@@ -14,7 +16,6 @@
       </ul>
 
     <div class="c-tab {{showTab}}" data-label="userSettings">
-        <h2>Users</h2>
       <table class="c-admin-table">
         <tbody>
           <tr class="c-admin-table__row">
@@ -31,7 +32,7 @@
               {{userId}}
             </td>
             <td class="c-admin-table__data">
-              <select class="c-admin__picklist" data-action="change-user-role">
+              <select class="c-admin__picklist t-input t-input--wide" data-action="change-user-role">
                 <option class="c-admin__option" name="" {{userHasNoRole}}></option>
                 <option class="c-admin__option" name="admin" {{userIsAdmin}}>Admin</option>
                 <option class="c-admin__option" name="editor" {{userIsEditor}}>Editor</option>
@@ -39,7 +40,9 @@
               </select>
             </td>
             <td class="c-admin-table__data">
-              <button class="c-admin-table__action-save" type="submit" data-action="save" {{changedRole}}>Change Role</button>
+
+              <button class="c-btn c-admin-table__action-save" type="submit" data-action="save-user-role">Change Role</button>
+
             </td>
           </tr>
         {{/each}}
@@ -48,9 +51,9 @@
     </div>
 
   <div class="c-tab {{showTab}}" data-label="viewSettings">
-      <h2 class="c-admin__heading">View Settings</h2>
-      <label class="c-admin__label"> Number of Posts Per Page.
-        <select class="c-admin__picklist" data-action="change-number-of-page-items">
+      <div class="c-admin__panel-row">
+      <label class="c-admin__label t-input--text-left"> Number of Posts Per Page.
+        <select class="c-admin__picklist t-input t-input--right" data-action="change-number-of-page-items">
           <option class="c-admin__option">1</option>
           <option class="c-admin__option">2</option>
           <option class="c-admin__option">3</option>
@@ -73,35 +76,44 @@
           <option class="c-admin__option">20</option>
         </select>
       </label>
+    </div>
 
-
-      <label class="c-admin__label"> Number of Featured Posts
-        <select class="c-admin__picklist featured" data-action="select-number-of-featured-items">
-          <option class="c-admin__option">1</option>
-          <option class="c-admin__option">2</option>
-          <option class="c-admin__option">3</option>
-          <option class="c-admin__option">4</option>
-        </select>
-        <button class="c-btn c-btn-action c-admin__button {{isSelectedFeatureNumber}}" type="button" data-action="change-number-of-featured-items">Update</button>
-      </label>
-
-      {{#each selectLists}}
-      <label class="{{labelClass}}">{{label}}
-        <select class="{{selectClass}}">
-        {{#each post in userPosts}}
-        <option {{postIsSelected}}>
-          {{#if post.title}}
-            {{post.title}}
-          {{else}}{{#if post.subject}}
-            {{post.subject}}
+      <div class="c-admin__panel-row">
+        <label class="c-admin__label t-input--text-left"> Number of Featured Posts
+          <select class="c-admin__picklist featured t-input t-input--right" data-action="select-number-of-featured-items">
+            <option class="c-admin__option" {{showOnePostSelected}}>1</option>
+            <option class="c-admin__option" {{showTwoPostSelected}}>2</option>
+            <option class="c-admin__option" {{showThreePostSelected}}>3</option>
+            <option class="c-admin__option" {{showFourPostSelected}}>4</option>
+          </select>
+          {{#if featuredSettingChanged}}
+          <button class="c-btn c-btn-action c-admin__button" type="button" data-action="change-number-of-featured-items">Update</button>
           {{else}}
-            {{post._id}}
-        {{/if}}{{/if}}
-        </option>
+          {{/if}}
+
+        </label>
+      </div>
+
+
+        {{#each selectLists}}
+        <div class="c-admin__panel-row">
+        <label class="{{labelClass}}">{{label}}
+          <select class="{{selectClass}}">
+          {{#each post in userPosts}}
+          <option>
+            {{#if post.title}}
+              {{post.title}}
+            {{else}}{{#if post.subject}}
+              {{post.subject}}
+            {{else}}
+              {{post._id}}
+          {{/if}}{{/if}}
+          </option>
+          {{/each}}
+        </select>
+        </label>
+        </div>
         {{/each}}
-      </select>
-      </label>
-      {{/each}}
 
         </div>
       </div>

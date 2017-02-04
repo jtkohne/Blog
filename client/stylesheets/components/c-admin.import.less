@@ -3,14 +3,36 @@
   &__panel{
     padding: 4em;
     .css-transition(all 0.3s ease);
+
+    &-row {
+      width: 75%;
+      display: block;
+      margin: 0 auto;
+    }
   }
 
   &__picklist {
+    min-width: 60px;
 
+    // &right {
+    //   float: right;
+    // }
   }
 
   &__option {
 
+  }
+
+  &__label {
+    width: 100%;
+
+    // &.text-center{
+    //   text-align: center;
+    // }
+    //
+    // &.text-left {
+    //   text-align: left;
+    // }
   }
 }
 
@@ -30,10 +52,14 @@
   }
 
   &__action-save {
-    // display: none;
+    display: none;
+    pointer-events: none;
+    opacity: 0;
+    .css-transition(all 0.2s ease);
 
     &.show {
-      display: block;
+      opacity: 1.0;
+      pointer-events: auto;
     }
   }
 }

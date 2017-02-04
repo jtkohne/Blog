@@ -1,7 +1,14 @@
 .blog-entry {
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 100%;
+  padding: 1em;
+
+  .responsive(@bp-lg, {
+      max-width: @bp-xl;
+      margin: 0 auto;
+      width: 70%;
+    });
 
   input {
     // width: 500px;

@@ -2,15 +2,15 @@
 createSelectList = () ->
   return {
     label: "Featured Post",
-    labelClass: "c-admin__label",
-    selectClass: "c-admin__picklist"
+    labelClass: "c-admin__label t-input--text-left",
+    selectClass: "c-admin__picklist t-input t-input--right t-input--wide"
   }
 Template.adminPanel.onCreated ->
   @users = new ReactiveVar(@data.users or null);
   @posts = @data.posts;
   @settings = @data.settings;
-  @featuredSetting = _.find @settings, (set) -> return set.name is "numberOfFeatured"
-  @numberOfFeatured = new ReactiveVar(@featuredSetting.value or null);
+  @dbFeaturedSetting = _.find @settings, (set) -> return set.name is "numberOfFeatured"
+  @numberOfFeatured = new ReactiveVar(@dbFeaturedSetting.value or null);
 
   @autorun =>
     @tab = new ReactiveVar();
@@ -89,22 +89,61 @@ Template.adminPanel.helpers
   userPosts: ->
     return Template.instance().posts
 
+  # changedRole: ->
+  #   console.log(@)
+  #   dbRole = Roles.getRolesForUser @_id
+  #   selected = $(e.target).parent().siblings('.c-admin-table__data').find('.c-admin__option:selected')["0"]
+  #   role = $(selected).val().toLowerCase()
+  #
+  #   if role != dbRole
+  #     return true
+  #   return false
+
   selectLists: ->
     number = Template.instance().numberOfFeatured.get()
     lists = []
     _(number).times (n) -> lists.push(createSelectList())
     return lists
 
-  isSelectedFeatureNumber: ->
-    setting = Template.instance().featuredSetting.value
-    picked = Template.instance().numberOfFeatured.get()
+  showOnePostSelected: ->
+    if @settings?
+      setting = Template.instance().dbFeaturedSetting.value;
+      if setting is 1
+        return selected="selected"
+    return ''
 
-    console.log(setting)
-    console.log(picked)
-    if setting is picked
-      console.log "triggered"
-      return 'show'
-    return
+  showTwoPostSelected: ->
+    if @settings?
+      setting = Template.instance().dbFeaturedSetting.value;
+      if setting is 2
+        return selected="selected"
+    return ''
+
+  showThreePostSelected: ->
+    if @settings?
+      setting = Template.instance().dbFeaturedSetting.value;
+      if setting is 3
+        return selected="selected"
+    return ''
+
+  showFourPostSelected: ->
+    if @settings?
+      setting = Template.instance().dbFeaturedSetting.value;
+      if setting is 4
+        return selected="selected"
+    return ''
+
+  featuredSettingChanged: ->
+    if @settings?
+      setting = Template.instance().dbFeaturedSetting.value
+      picked = Template.instance().numberOfFeatured.get()
+      console.log(setting)
+      console.log(picked)
+      if setting != picked
+        console.log("not equal found")
+        return true
+      else
+        return false
 
 Template.adminPanel.events
   'click .c-tabs__link': (e, template) ->
@@ -112,13 +151,13 @@ Template.adminPanel.events
     @active = true
     template.tab.set(@)
 
-  'click [data-action="save"]': (e, template) ->
+  'click [data-action="save-user-role"]': (e, template) ->
     userId = @_id
     selected = $(e.target).parent().siblings('.c-admin-table__data').find('.c-admin__option:selected')["0"]
     role = $(selected).val().toLowerCase()
 
     if not role
-      return alert("please selected a role to update user permissions")
+      return Toast.error("You must select a valid user role", "Role Invalid", {displayDuration: 3000})
 
     Meteor.call 'User.changeUserRole', userId, role, (error, response) ->
       if error?
@@ -131,15 +170,19 @@ Template.adminPanel.events
     role = Roles.getRolesForUser @_id
     role = role.toString()
     selected = $(e.target).val().toLowerCase()
-    button = $(e.target).parent().siblings().find('[data-action=save]')
+    parent = $(e.target).parent()
+    button = parent.siblings().find('[data-action=save-user-role]')
+    console.log(parent.siblings());
     if role != selected
       button.addClass('show')
+      button.fadeIn()
     else
-       button.removeClass('show')
+      button.fadeOut()
+      button.removeClass('show')
 
   'change [data-action=select-number-of-featured-items]': (e, template) ->
     picked = $(e.target).val()
-    template.numberOfFeatured.set(picked)
+    template.numberOfFeatured.set(parseInt(picked))
     # console.log(template.featuredSetting);
     # console.log(template.numberOfFeatured.get())
     # button = $('[data-action=change-number-of-featured-items]');
@@ -158,7 +201,7 @@ Template.adminPanel.events
 
   'click [data-action=change-number-of-featured-items]': (e, template) ->
     picked = $(e.target).siblings('.c-admin__picklist').val()
-    template.numberOfFeatured.set(picked) # set reactive variable to refresh view
+    template.numberOfFeatured.set(parseInt(picked)) # set reactive variable to refresh view
 
     Meteor.call 'Settings.changeNumberOfFeaturedItems', parseInt(picked), (error, response) ->
       if error?
